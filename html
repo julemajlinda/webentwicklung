@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mein Hausaufgabenheft</title>
+    <link rel="stylesheet" href="myStyle.css" />
+    <script src="myScript.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1> Jules Hausaufgabenheft </h1>
+      <div class="profile-menu">
+        <a href="#">👤</a>
+        <a href="#">⚙️</a>
+      </div>
+    </header>
+
+    <p class="welcome-msg">Willkommen zurück, Jule! Bereit für produktives Lernen?✏️</p>
+
+    <main>
+      <section class="task-entry">
+        <h2>Neue Hausaufgabe eintragen</h2>
+        <form>
+          <input type="text" placeholder="Fach (z.B. Mathe)" required />
+          <input type="text" placeholder="Aufgabe (z.B. Seite 12, Nr. 3-6)" required />
+          <input type="date" required />
+          <button type="submit">Hinzufügen</button>
+        </form>
+      </section>
+
+      <section class="task-lists">
+        <div class="task-column">
+          <h2>📝 Offene Aufgaben</h2>
+          <ul>
+            <li>
+              <strong>Mathe:</strong> Seite 12, Nr. 3-6 – <em>Abgabe: 10.04.2025</em>
+            </li>
+          </ul>
+        </div>
+
+        <div class="task-column">
+          <h2>✅ Erledigt</h2>
+          <ul>
+            <li>
+              <strong>Deutsch:</strong> Aufsatz über Märchen – <em>Abgabe: 05.04.2025</em>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <section class="week-calendar">
+      <h2>📅 Wochenübersicht</h2>
+      <div class="calendar-grid">
+        <div class="day">
+          <strong>Mo</strong>
+          <p class="date">06.04.2025</p>
+          <p class="task">–</p>
+        </div>
+        <div class="day">
+          <strong>Di</strong>
+          <p class="date">07.04.2025</p>
+          <p class="task">–</p>
+        </div>
+        <div class="day">
+          <strong>Mi</strong>
+          <p class="date">08.04.2025</p>
+          <p class="task">–</p>
+        </div>
+        <div class="day">
+          <strong>Do</strong>
+          <p class="date">09.04.2025</p>
+          <p class="task">–</p>
+        </div>
+        <div class="day">
+          <strong>Fr</strong>
+          <p class="date">10.04.2025</p>
+          <p class="task">Mathe abgeben</p>
+        </div>
+        <div class="day">
+          <strong>Sa</strong>
+          <p class="date">11.04.2025</p>
+          <p class="task">–</p>
+        </div>
+        <div class="day">
+          <strong>So</strong>
+          <p class="date">12.04.2025</p>
+          <p class="task">–</p>
+        </div>
+      </div>
+    </section>
+    
+
+    <footer>
+      <p>&copy; 2025 Mein Hausaufgabenheft</p>
+    </footer>
+  </body>
+</html>
