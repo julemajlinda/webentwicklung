@@ -148,4 +148,36 @@ document.addEventListener("DOMContentLoaded", () => {
     // === Menü: Theme ändern ===
     document.getElementById("themeToggle").addEventListener("click", () => {
       document.body.style.backgroundColor =
-        document.body.
+        document.body.style.backgroundColor === "rgb(229, 175, 241)" ? "#a6ddf0" : "#e5aff1";
+      settingsMenu.style.display = "none";
+    });
+  
+    // === Menü: Name ändern ===
+    document.getElementById("changeName").addEventListener("click", () => {
+      const newName = prompt("Wie möchtest du begrüßt werden?");
+      if (newName) {
+        document.querySelector(".welcome-msg").textContent =
+          `Willkommen zurück, ${newName}! Bereit für produktives Lernen?✏️`;
+      }
+      settingsMenu.style.display = "none";
+    });
+  
+    // === Menü: Aufgaben löschen ===
+    document.getElementById("clearTasks").addEventListener("click", () => {
+      if (confirm("Alle Aufgaben wirklich löschen?")) {
+        document.querySelectorAll(".task-column ul").forEach(ul => ul.innerHTML = "");
+      }
+      settingsMenu.style.display = "none";
+    });
+  
+    // Klick außerhalb -> Menü schließen
+    document.addEventListener("click", (e) => {
+      if (!settingsMenu.contains(e.target) && !settingsButton.contains(e.target)) {
+        settingsMenu.style.display = "none";
+      }
+    });
+  
+    generateCurrentWeekCalendar(); 
+  });
+  
+  
