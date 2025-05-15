@@ -1,10 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+
     const calendarDays = document.querySelectorAll(".calendar-grid .day");
     const form = document.querySelector(".task-entry form");
     const [subjectInput, taskInput, dateInput] = form.querySelectorAll("input");
     const [openTasksList, doneTasksList] = document.querySelectorAll(".task-column ul");
     const profileButton = document.querySelector(".profile-menu a:first-child");
     const settingsButton = document.querySelector(".profile-menu a:last-child");
+
+    const welcomeMsg = document.querySelector(".welcome-msg");
+
   
     // === Aktuelle Woche anzeigen ===
     function generateCurrentWeekCalendar() {
@@ -38,14 +43,16 @@ document.addEventListener("DOMContentLoaded", () => {
       calendarDays.forEach(day => {
         if (day.querySelector(".date").textContent.trim() === formattedDue) {
           const taskEl = day.querySelector(".task");
-          taskEl.textContent = taskEl.textContent === "–"
-            ? `${subject} abgeben`
-            : `${taskEl.textContent}, ${subject} abgeben`;
+          if (taskEl.textContent === "–") {
+            taskEl.textContent = subject + " abgeben";
+          } else {
+            taskEl.textContent = taskEl.textContent + ", " + subject + " abgeben";
+          }
           found = true;
         }
       });
   
-      if (!found) console.log(`Hinweis: Abgabedatum (${formattedDue}) liegt nicht in dieser Woche.`);
+      if (!found) console.log("Hinweis: Abgabedatum (" + formattedDue + ") liegt nicht in dieser Woche.");
     }
   
     // === Neue Aufgabe hinzufügen ===
@@ -57,12 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
   
       if (subject && task && dueDate) {
         const li = document.createElement("li");
-        li.innerHTML = `
-          <label>
-            <input type="checkbox" class="task-checkbox">
-            <strong>${subject}:</strong> ${task} – <em>Abgabe: ${dueDate}</em>
-          </label>`;
+        li.innerHTML = "<label>" +
+          "<input type='checkbox' class='task-checkbox'>" +
+          "<strong>" + subject + ":</strong> " + task + " – <em>Abgabe: " + dueDate + "</em>" +
+          "</label>";
         openTasksList.appendChild(li);
+        saveTasksToStorage();
         addTaskToCalendar(subject, task, dueDate);
         form.reset();
         alert("Neue Hausaufgabe wurde hinzugefügt!");
@@ -78,6 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetList = e.target.checked ? doneTasksList : openTasksList;
         li.classList.toggle("done", e.target.checked);
         targetList.appendChild(li);
+        saveDataToStorage();
+
         alert(e.target.checked ? "Aufgabe als erledigt markiert!" : "Aufgabe zurück in offene Aufgaben verschoben!");
       }
     });
@@ -95,10 +104,10 @@ document.addEventListener("DOMContentLoaded", () => {
       border: "1px solid #ccc", padding: "10px", borderRadius: "8px",
       boxShadow: "0 4px 8px rgba(0,0,0,0.2)", display: "none", zIndex: 1000
     });
-    settingsMenu.innerHTML = `
-      <button id="themeToggle">🎨 Theme wechseln</button><br><br>
-      <button id="changeName">✏️ Namen ändern</button><br><br>
-      <button id="clearTasks">Alle bestehenden Aufgaben löschen</button>`;
+    settingsMenu.innerHTML = 
+      "<button id='themeToggle'>🎨 Theme wechseln</button><br><br>" +
+      "<button id='changeName'>✏️ Namen ändern</button><br><br>" +
+      "<button id='clearTasks'>Alle bestehenden Aufgaben löschen</button>";
     document.body.appendChild(settingsMenu);
   
     settingsButton.addEventListener("click", e => {
@@ -111,16 +120,19 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.backgroundColor === "rgb(229, 175, 241)" ? "#a6ddf0" : "#e5aff1";
       settingsMenu.style.display = "none";
     });
-  
+    // name ändern
     document.getElementById("changeName").addEventListener("click", () => {
       const newName = prompt("Wie möchtest du begrüßt werden?");
       if (newName) {
         document.querySelector(".welcome-msg").textContent =
-          `Willkommen zurück, ${newName}! Bereit für produktives Lernen?✏️`;
+          "Willkommen zurück, " + newName + "! Bereit für produktives Lernen?✏️";
+          localStorage.setItem("userName", newName);
+        saveDataToStorage();
+
       }
       settingsMenu.style.display = "none";
     });
-  
+    // alle bestehenden aufgaben löschen
     document.getElementById("clearTasks").addEventListener("click", () => {
       if (confirm("Alle Aufgaben wirklich löschen?")) {
         [openTasksList, doneTasksList].forEach(ul => ul.innerHTML = "");
